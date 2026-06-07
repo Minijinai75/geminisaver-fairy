@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>GeminiSaver Fairy 對話備份庫</title>
+    <script src="jszip.min.js"></script>
+    <style>
+        :root {
+            /* 夢幻獨角獸風配色 */
+            --color-primary: #E8A4C9;
+            --color-danger: #F5A8A8;
+            --color-success: #B4E7CE;
+            --color-warning: #FFCBA4;
+            --color-view: #A7C7E7;
+            --color-magic: #E8A4C9;
+            --color-clipboard: #A7C7E7;
+            --color-zip: #FFCBA4;
+            --color-about: #FFB7C5;
+            --color-close: #C8BFD4;
+            --color-card: #fff;
+            --text-dark: #3D3350;
+            --text-light: #F0E8F8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #f0f2f5;
+            padding: 30px;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ★ 更新提示 ★ */
+        .update-hint {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .update-hint a {
+            color: #FFB7C5;
+            text-decoration: none;
+        }
+
+        /* ★ 儲存空間統計 ★ */
+        #storage-stats {
+            font-size: 13px;
+            color: #5f6368;
+            background: #f1f3f4;
+            padding: 10px 15px;
+            border-radius: 10px;
+            min-width: 280px;
+        }
+
+        /* 頂部按鈕區 */
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .top-actions button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-clipboard {
+            background: var(--color-clipboard);
+            color: var(--text-dark);
+        }
+
+        .btn-settings {
+            background: var(--color-primary);
+            color: var(--text-dark);
+        }
+
+        .btn-zip {
+            background: var(--color-zip);
+            color: var(--text-dark);
+        }
+
+        .btn-select-all {
+            background: var(--color-success);
+            color: var(--text-dark);
+        }
+
+        .btn-delete-selected {
+            background: var(--color-danger);
+            color: var(--text-dark);
+        }
+
+        .btn-about {
+            background: var(--color-about);
+            color: var(--text-dark);
+            margin-left: auto;
+        }
+
+        .top-actions button:hover {
+            filter: brightness(0.95);
+        }
+
+        /* ★ 搜尋 + 排序列 ★ */
+        .search-sort-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        #search {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: 0.2s;
+        }
+
+        #search:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(232, 164, 201, 0.2);
+        }
+
+        #sortSelect {
+            padding: 10px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* ★ 備份卡片 ★ */
+        .backup-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: 0.2s;
+        }
+
+        .backup-card:hover {
+            background: #f8faff;
+            border-color: var(--color-primary);
+        }
+
+        .backup-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: #202124;
+            margin-bottom: 5px;
+        }
+
+        .backup-info {
+            font-size: 12px;
+            color: #80868b;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: #80868b;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>🛡️ GeminiSaver Fairy 對話備份資料庫 <span id="gs-dash-ver"></span></h1>
+                <div class="update-hint">
+                    📢 確認是否為最新版 → <a href="https://minijinai75.notion.site/geminisaver-fairy" target="_blank">更新紀錄</a>
+                    ｜ <a href="https://marshmallow-qa.com/g5cbtosuz5fj93n" target="_blank"
+                        style="color:#FFB7C5;">棉花糖💌</a>
+                </div>
+            </div>
+            <div id="storage-stats">💾 讀取中...</div>
+        </header>
+
+        <div class="top-actions">
+            <button class="btn-clipboard" id="btn-clipboard">💡 Prompt萬用剪貼簿</button>
+            <button class="btn-settings" id="btn-prompt">⚙️ 換窗指令</button>
+            <button class="btn-zip" id="btn-zip">📦 下載選取 (.zip)</button>
+            <button class="btn-select-all" id="btn-select-all">☑️ 全選</button>
+            <button class="btn-delete-selected" id="btn-delete-selected">🗑️ 刪除選取</button>
+            <button class="btn-about" id="btn-about">ℹ️ 關於</button>
+        </div>
+
+        <!-- ★ 搜尋 + 排序 ★ -->
+        <div class="search-sort-row">
+            <input type="text" id="search" placeholder="🔍 搜尋備份標題...">
+            <select id="sortSelect">
+                <option value="time-desc">🕐 時間 ▼ (最新)</option>
+                <option value="time-asc">🕐 時間 ▲ (最舊)</option>
+                <option value="title-asc">📝 標題 A-Z</option>
+                <option value="title-desc">📝 標題 Z-A</option>
+            </select>
+        </div>
+
+        <!-- ★ Gem 分組會由 JS 動態插入到這裡 ★ -->
+
+        <!-- ★ 備份列表 (卡片式) ★ -->
+        <div id="backup-list">
+            <!-- JS 動態渲染備份卡片 -->
+        </div>
+
+        <!-- ★ 分頁會由 JS 動態插入到 backup-list 之後 ★ -->
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

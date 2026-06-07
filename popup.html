@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 480px;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      padding: 15px;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    h3 {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+      color: #202124;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 12px;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .settings-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-end;
+      flex: 1;
+    }
+
+    .ts-label {
+      font-size: 11px;
+      color: #1967d2;
+      background: #e8f0fe;
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      display: inline-block;
+      min-width: 140px;
+      text-align: center;
+    }
+
+    input[type="number"] {
+      width: 45px;
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+
+
+    .tip-box {
+      margin-top: 12px;
+      padding: 10px;
+      background-color: #fff8e1;
+      color: #b06000;
+      font-size: 11px;
+      border-radius: 4px;
+      border-left: 3px solid #ffb74d;
+      line-height: 1.5;
+    }
+
+    .tip-box strong {
+      color: #e65100;
+    }
+
+    #current-page-section {
+      display: none;
+    }
+
+    /* Toggle switch */
+    .toggle-switch {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.3s;
+      border-radius: 20px;
+    }
+
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked+.toggle-slider {
+      background-color: #1a73e8;
+    }
+
+    .toggle-switch input:checked+.toggle-slider:before {
+      transform: translateX(16px);
+    }
+
+    #title-preview {
+      font-weight: bold;
+      font-size: 14px;
+      color: #1a73e8;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .info-row {
+      font-size: 11px;
+      color: #5f6368;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      font-size: 11px;
+      resize: none;
+      padding: 6px;
+      color: #3c4043;
+      background: #fafafa;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 12px;
+      transition: 0.2s;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #downloadBtn {
+      background: #1a73e8;
+    }
+
+    #downloadBtn:hover {
+      background: #1557b0;
+    }
+
+
+
+
+    #status-msg {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>GeminiSaver Fairy 自動備份小精靈 <span id="gs-popup-ver"></span><span style="font-size:10px; color:#666;">BY
+      MINIJIN</span></h3>
+  <div
+    style="text-align:right; margin-bottom:8px; display:flex; justify-content:flex-end; align-items:center; gap:6px; flex-wrap:wrap;">
+    <button id="openDashboardBtn"
+      style="background:#5f6368;color:white;border:none;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;font-weight:bold;">📚
+      備份資料庫</button>
+    <button id="iconPanelBtn"
+      style="background:#E8A4C9;color:#3D3350;border:none;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;font-weight:bold;">📸
+      ICON設定</button>
+    <button id="aboutBtn"
+      style="background:#6c5ce7;color:white;border:none;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;font-weight:bold;">ℹ️
+      關於</button>
+    <a href="https://marshmallow-qa.com/g5cbtosuz5fj93n" target="_blank"
+      style="font-size:11px; color:#ff9ff3; text-decoration:none;">棉花糖💌</a>
+  </div>
+
+  <div class="card">
+    <div class="settings-row">
+      <span>自動下載頻率 (分, 0=關):</span>
+      <div class="input-group">
+        <input type="number" id="intervalInput" min="0" value="0">
+        <span id="ts-download" class="ts-label">尚無紀錄</span>
+      </div>
+    </div>
+    <div class="settings-row">
+      <span>自動重新整理 (分, 0=關):</span>
+      <div class="input-group">
+        <input type="number" id="refreshInput" min="0" value="0">
+        <span id="ts-refresh" class="ts-label">尚無紀錄</span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      ⚠️ <strong>設定提醒：</strong><br>
+      若開啟自動重整，請確保「自動下載頻率」<b>小於</b>「自動重新整理頻率」。<br>
+      (例如：下載設 2 分，重整設 10 分。若重整時間較短，計時器會被重置導致無法下載)
+    </div>
+  </div>
+
+  <div id="current-page-section" class="card">
+    <div id="title-preview">正在連線...</div>
+
+    <div class="info-row">
+      <span>資料狀態:</span>
+      <span id="lastUpdated">--</span>
+    </div>
+    <div style="text-align: right; margin-bottom: 5px;">
+      <a href="#" id="testDownloadLink" style="font-size: 10px; color: #1a73e8; text-decoration: none;">[強制觸發自動下載]</a>
+    </div>
+
+    <textarea id="preview" readonly placeholder="預覽..."></textarea>
+
+    <div class="btn-group">
+      <button id="downloadBtn">💾 下載當前 (.txt)</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="settings-row">
+      <span>📦 每日自動備份:</span>
+      <div class="input-group">
+        <label class="toggle-switch">
+          <input type="checkbox" id="autoJsonToggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <span id="ts-json-backup" class="ts-label" style="min-width:100px;">檢查中...</span>
+      </div>
+    </div>
+    <div class="settings-row" style="margin-top:8px;">
+      <span>☁️ 自動備份通知:</span>
+      <div class="input-group">
+        <label class="toggle-switch">
+          <input type="checkbox" id="backupCloudToggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <span id="ts-cloud-toast" class="ts-label" style="min-width:100px;">預設關閉</span>
+      </div>
+    </div>
+    <div class="settings-row" style="margin-top:8px;">
+      <span>📣 一般提示:</span>
+      <div class="input-group">
+        <label class="toggle-switch">
+          <input type="checkbox" id="generalToastToggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <span id="ts-general-toast" class="ts-label" style="min-width:100px;">已啟用</span>
+      </div>
+    </div>
+    <div class="settings-row" style="margin-top:8px;">
+      <span>🚨 錯誤提示:</span>
+      <div class="input-group">
+        <label class="toggle-switch">
+          <input type="checkbox" id="errorToastToggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <span id="ts-error-toast" class="ts-label" style="min-width:100px;">已啟用</span>
+      </div>
+    </div>
+    <div class="tip-box" style="margin-top:8px;">
+      📁 開啟後，每天會自動下載一份完整備份到<br>
+      <b>下載資料夾/GeminiBackup/</b> 目錄（帶日期命名）
+    </div>
+    <input type="file" id="importBackupFile" accept=".json" style="display:none;">
+    <button id="importBackupBtn"
+      style="margin-top:8px; width:100%; padding:8px; border:none; border-radius:6px; background:#6c5ce7; color:white; font-size:12px; font-weight:bold; cursor:pointer;">
+      📥 匯入備份檔 (.json)
+    </button>
+    <div id="importStatus" style="font-size:11px; color:#888; margin-top:4px; text-align:center;"></div>
+  </div>
+
+
+  <div id="status-msg"></div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

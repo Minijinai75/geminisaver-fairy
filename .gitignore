@@ -1,0 +1,5 @@
+experimental_excluded/
+*.zip
+*.crx
+Thumbs.db
+.DS_Store

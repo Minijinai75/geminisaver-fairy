@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "GeminiSaver Fairy",
+  "version": "10.3.1",
+  "description": "Gemini conversation backup, folder management, icon replacement, and export tools.",
+  "permissions": [
+    "storage",
+    "downloads",
+    "activeTab",
+    "unlimitedStorage",
+    "tabs",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://gemini.google.com/*"
+  ],
+  "icons": {
+    "128": "icon.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "GeminiSaver Fairy",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "content/globals.js",
+        "content/folderManager.js",
+        "content/floatingPanel.js",
+        "content/iconReplace.js",
+        "content/main.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icon.png"
+      ],
+      "matches": [
+        "https://gemini.google.com/*"
+      ]
+    }
+  ]
+}
