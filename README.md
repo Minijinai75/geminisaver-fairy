@@ -16,6 +16,16 @@ This open-source build focuses on safe, reviewable maintainer features:
 - GitHub repository: <https://github.com/Minijinai75/geminisaver-fairy>
 - Chrome Web Store: <https://chromewebstore.google.com/detail/gemini-%E8%87%AA%E5%8B%95%E5%82%99%E4%BB%BD%E5%B0%8F%E7%B2%BE%E9%9D%88-%E2%80%94-geminisa/hnoghbaehghopbjcbdgcnipbggkdhmgj?hl=zh-TW>
 
+## Screenshots
+
+| Folders and quick actions | Popup controls |
+| --- | --- |
+| ![Folders and quick actions](./assets/screenshots/screenshot-1-dashboard.png) | ![Popup controls](./assets/screenshots/screenshot-2-folders.png) |
+
+| Backup dashboard | Conversation review |
+| --- | --- |
+| ![Backup dashboard](./assets/screenshots/screenshot-4-backup.png) | ![Conversation review](./assets/screenshots/screenshot-5-panel.png) |
+
 ## Open-source scope
 
 This repository is the public OSS-safe build.
@@ -63,14 +73,10 @@ Known usage signal for the Chrome Web Store listing, provided by the maintainer 
 
 The store listing also showed 353 users and a 5.0 rating at the time this OSS package was prepared.
 
-## Repository hygiene before publishing
+## Repository notes
 
-Before pushing to GitHub:
-
-1. Review screenshots and branding assets.
-2. Confirm the public repo excludes `experimental_excluded/`.
-3. Add a few screenshots to the repository front page if desired.
-4. Create a fresh Git history for the public repo.
+- The public repo excludes `experimental_excluded/`.
+- Screenshots in this README are sourced from the public Chrome Web Store listing prepared by the maintainer.
 
 ## Contributing
 
