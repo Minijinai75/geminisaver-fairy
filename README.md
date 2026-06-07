@@ -11,6 +11,11 @@ This open-source build focuses on safe, reviewable maintainer features:
 - Custom Gem icon replacement
 - Prompt clipboard utilities
 
+## Project links
+
+- GitHub repository: <https://github.com/Minijinai75/geminisaver-fairy>
+- Chrome Web Store: <https://chromewebstore.google.com/detail/gemini-%E8%87%AA%E5%8B%95%E5%82%99%E4%BB%BD%E5%B0%8F%E7%B2%BE%E9%9D%88-%E2%80%94-geminisa/hnoghbaehghopbjcbdgcnipbggkdhmgj?hl=zh-TW>
+
 ## Open-source scope
 
 This repository is the public OSS-safe build.
